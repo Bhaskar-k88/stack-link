@@ -1,23 +1,21 @@
-import { Routes, Route, Navigate } from "react-router"
-import HomePage from "./pages/HomePage"
-import AuthPage from "./pages/AuthPage"
-import CallPage from "./pages/CallPage"
-import { useAuth } from "@clerk/clerk-react"
+import { useAuth } from "@clerk/clerk-react";
+import { Navigate, Route, Routes } from "react-router";
+
+import AuthPage from "./pages/AuthPage";
+import CallPage from "./pages/CallPage";
+import HomePage from "./pages/HomePage";
 
 import * as Sentry from "@sentry/react";
 
-  const SentryRoutes = Sentry.withSentryReactRouterV7Routing(Routes);
+const SentryRoutes = Sentry.withSentryReactRouterV7Routing(Routes);
 
 const App = () => {
-
-   const { isSignedIn, isLoaded } = useAuth();
+  const { isSignedIn, isLoaded } = useAuth();
 
   if (!isLoaded) return null;
 
-
   return (
-
-      <SentryRoutes>
+    <SentryRoutes>
       <Route path="/" element={isSignedIn ? <HomePage /> : <Navigate to={"/auth"} replace />} />
       <Route path="/auth" element={!isSignedIn ? <AuthPage /> : <Navigate to={"/"} replace />} />
 
@@ -31,9 +29,8 @@ const App = () => {
         element={isSignedIn ? <Navigate to={"/"} replace /> : <Navigate to={"/auth"} replace />}
       />
     </SentryRoutes>
+  );
+};
 
+export default App;
 
-  )
-}
-
-export default App
